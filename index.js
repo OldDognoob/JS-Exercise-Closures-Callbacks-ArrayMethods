@@ -88,9 +88,15 @@ function processLastItem(stringList, cb) {
  * [2] Invoking `processSum` passing `[]` and `(num) => num + 1000`,
  * should return 1000.
 */
-function processSum(numberList, cb) {  
-  return cb(numberList);  
+function processSum(numberList, cb) { 
+
+  let sum = numberList;
+  return cb(numberList) ; 
 }
+
+
+
+
 
 /**
  * ### Challenge `processProduct`
@@ -187,9 +193,15 @@ function processDuplicateFree(list) {
  * The full names appear in the array in the same order the runners appear in the `runners` array.
 */
 function getFullNames(runners) {
-  runners.forEach(runners => getFullNames.push(`${runners.last_name} ${runners.first_name}`));
-  
+  let newRunners = [];
+  runners.forEach((currentItem, index, array)=>{
+    currentItem.fullnames = 0;
+    newRunners.push(currentItem);
+  });
+  return newRunners;
 }
+console.log(getFullNames(runners));
+
  
 /**
  * ### Challenge `firstNamesAllCaps`
@@ -204,9 +216,13 @@ function getFullNames(runners) {
  * The first names appear in the array in the same order the runners appear in the `runners` array.
 */
 function firstNamesAllCaps() {
-  runners.map(runner =>firstNamesAllCaps.push(runner.first_name.toUpperCase()));
+ return runners.map ((currentItem, index, array) => {
+   currentItem.runners = currentItem.runners.toLowerCase();
+   return currentItem.runners;
+ });
 
 }
+console.log(firstNamesAllCaps(runners));
 
 /**
  * ### Challenge `getRunnersByTShirtSize`
@@ -222,8 +238,11 @@ function firstNamesAllCaps() {
  * The runners in the array appear in the same order they appear in the `runners` array.
 */
 function getRunnersByTShirtSize() {
-  
+  return filtered = runners.filter(currentItem => currentItem.shirt_size === 'L')
+  // getRunnersByTShirtSize = runners.filter(x => x.shirt_size=='L')
 }
+console.log(getRunnersByTShirtSize(runners));
+// console.log(getRunnersByTShirtSize);
 
 /**
  * ### Challenge `tallyUpDonations`
@@ -235,8 +254,10 @@ function getRunnersByTShirtSize() {
  * @param runners array of runners like the one inside the /data/runners.js file.
  * @returns a number which is the sum of the donations by all runners.
 */
-function tallyUpDonations(/* CODE HERE */) {
-  /* CODE HERE */
+function tallyUpDonations(runners) {
+return runners.reduce((accumulator, currentItem, index, array) => {
+  return accumulator + runners.donations;
+}, 0);
 }
 
 /////////////// CLOSURES ///////////////
@@ -265,7 +286,7 @@ function counterMaker() {
     }
   };
   // BROKEN CODE ENDS
-
+ 
 
 /**
  * ### Challenge `counterMakerWithLimit`
