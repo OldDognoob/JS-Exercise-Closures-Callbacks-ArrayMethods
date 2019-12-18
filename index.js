@@ -88,15 +88,10 @@ function processLastItem(stringList, cb) {
  * [2] Invoking `processSum` passing `[]` and `(num) => num + 1000`,
  * should return 1000.
 */
-function processSum(numberList, cb) { 
-
-  let sum = numberList;
-  return cb(numberList) ; 
+function processSum(numberList,cb) { 
+  const sum=numberList.reduce((x,y)=>x+y,0);
+  return cb(sum);
 }
-
-
-
-
 
 /**
  * ### Challenge `processProduct`
@@ -144,7 +139,7 @@ function processContains(item, list,cb) {
   if(list.includes(item)){
     return cb(true)
   }
-  return(false)
+  return cb(false)
 }
 
 /**
@@ -193,15 +188,11 @@ function processDuplicateFree(list) {
  * The full names appear in the array in the same order the runners appear in the `runners` array.
 */
 function getFullNames(runners) {
-  let newRunners = [];
-  runners.forEach((currentItem, index, array)=>{
-    currentItem.fullnames = 0;
-    newRunners.push(currentItem);
-  });
-  return newRunners;
+  let newArray = [];
+  runners.forEach(runner => newArray.push(`${runner.last_name}, ${runner.first_name}`));
+ return newArray;
 }
-console.log(getFullNames(runners));
-
+ 
  
 /**
  * ### Challenge `firstNamesAllCaps`
@@ -215,15 +206,29 @@ console.log(getFullNames(runners));
  * @returns an array with all the runners' first names in ALL CAPS.
  * The first names appear in the array in the same order the runners appear in the `runners` array.
 */
-function firstNamesAllCaps() {
- return runners.map ((currentItem, index, array) => {
-   currentItem.runners = currentItem.runners.toLowerCase();
-   return currentItem.runners;
- });
+function firstNamesAllCaps(runners) {
+  let caps = [];
+  runners.map(capital => caps.push(`${capital.first_name}`.toUpperCase()))
+  return caps;
+  }
 
-}
-console.log(firstNamesAllCaps(runners));
+//  function firstNamesAllCaps(){
+//    const firstNamesAllCaps= caps.map((currentItem, index, array)=>{
+//      currentItem.caps = currentItem.caps.toUpperCase();
+//      return currentItem;
+//    });
+//  }
 
+
+// function firstNamesAllCaps(){
+//   return runners.map(el => el.toUpperCase().indexOf(query.toUpperCase()) !== -1);
+// }
+// console.log(firstNamesAllCaps(runners));
+
+// function firstNamesAllCaps(){
+//   let firstNamesAllCaps = [];
+//   runners.map(runners => firstNamesAllCaps.push(runners.firstNamesAllCaps.toUpperCase()));
+// }
 /**
  * ### Challenge `getRunnersByTShirtSize`
  * 
@@ -237,11 +242,11 @@ console.log(firstNamesAllCaps(runners));
  * @returns an array containing only the runners that use the given `tShirtSize`.
  * The runners in the array appear in the same order they appear in the `runners` array.
 */
-function getRunnersByTShirtSize() {
-  return filtered = runners.filter(currentItem => currentItem.shirt_size === 'L')
-  // getRunnersByTShirtSize = runners.filter(x => x.shirt_size=='L')
+function getRunnersByTShirtSize(runners,tShirtSize) {
+  return runners.filter(values => values.shirt_size === tShirtSize);
+  
 }
-console.log(getRunnersByTShirtSize(runners));
+
 // console.log(getRunnersByTShirtSize);
 
 /**
@@ -254,10 +259,14 @@ console.log(getRunnersByTShirtSize(runners));
  * @param runners array of runners like the one inside the /data/runners.js file.
  * @returns a number which is the sum of the donations by all runners.
 */
+// function tallyUpDonations(runners) {
+// return runners.reduce((accumulator, currentItem, index, array) => {
+//   return accumulator + runners.donations;
+// }, 0);
+// }
 function tallyUpDonations(runners) {
-return runners.reduce((accumulator, currentItem, index, array) => {
-  return accumulator + runners.donations;
-}, 0);
+ 
+  return runners.reduce((priceTotal, runner) => priceTotal + runner.donation, 0);
 }
 
 /////////////// CLOSURES ///////////////
@@ -278,13 +287,26 @@ return runners.reduce((accumulator, currentItem, index, array) => {
 */
 function counterMaker() {
   // BROKEN CODE STARTS
-  const count = 0;
-  return function counter() {
-    ++count;
-    console.log(count);
-    return count;
-    }
+     let count = 0;
+     const plusOne = function(){
+       return count++;
+     }
+     return plusOne;
+  
   };
+
+    const myCounter = counterMaker();
+
+    console.log(myCounter());
+
+    console.log(myCounter());
+
+    console.log(myCounter());
+  // let newCounter=counterMaker();
+  // console.log(newCounter());
+  // console.log(newCounter());
+  // console.log(newCounter());
+  // console.log(newCounter());
   // BROKEN CODE ENDS
  
 
@@ -308,17 +330,33 @@ function counterMaker() {
  * counter()  //should return 0
  * etc
 */
-function counterMakerWithLimit() {
- let count = 0;
- return function mycounter (){
-   if (count < 3) {
-     count++;
-   }else{
-     count = 1;
-   }
-   console.log(count);
- }
+function counterMakerWithLimit(maximum) {
+  
+  let count = 0;
+  function counter(){
+    count > maximum ? (count = 0)  : count;
+    return count++;
+  }
+  return counter;
 }
+
+
+// function counterMakerWithLimit() {
+//  let count = 0;
+//  return function mycounter (){
+//    if (count < 3) {
+//      return count++;
+//    }else{
+//      return count = 0;
+//    }
+//  }
+ 
+// };
+// const limitcounter = counterMakerWithLimit()
+// console.log(limitcounter());
+// console.log(limitcounter());
+// console.log(limitcounter());
+
 
 /////////////// END OF CHALLENGE ///////////////
 /////////////// END OF CHALLENGE ///////////////
